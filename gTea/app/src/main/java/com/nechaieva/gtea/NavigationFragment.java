@@ -8,8 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class NavigationFragment extends Fragment {
+
+    String[] data = {"Black tea", "Green tea"};
 
     @Override
     public View onCreateView(
@@ -30,5 +34,19 @@ public class NavigationFragment extends Fragment {
                         .navigate(R.id.action_NavFragment_to_SecondFragment);
             }
         });
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        MenuAdapter mAdapter = new MenuAdapter(data);
+        recyclerView.setAdapter(mAdapter);
     }
 }
