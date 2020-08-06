@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">gCoffee</string>
+    <string name="home">Home</string>
+    <string name="order">Order</string>
+    <string name="about">About</string>
+    <string name="reward_points">Reward points progress</string>
+    <string name="welcome">Welcome to gCoffee!</string>
+    <string name="coffee_list_title">Choose your coffee:</string>
+    <string name="shop_list_title">Choose a coffee shop:</string>
+    <string name="about_text">Demo app to test App Actions</string>
+
+    <!-- The list of available coffees -->
+    <string-array name="coffee_list">
+        <item>Latte</item>
+        <item>Cappuccino</item>
+        <item>Mocha</item>
+        <item>Flat White</item>
+        <item>Americano</item>
+        <item>Espresso</item>
+    </string-array>
+</resources>
