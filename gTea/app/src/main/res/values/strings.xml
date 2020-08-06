@@ -6,5 +6,6 @@
     <string name="order_fragment_label">Order</string>
     <string name="order">Order</string>
     <string name="back">Back to the tea card</string>
+    <string name="profile"> Go to the user profile</string>
 
 </resources>

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.nechaieva.gtea.Menu"
+        android:name="com.nechaieva.gtea.MenuFragment"
         android:label="@string/menu_fragment_label"
-        tools:layout="@layout/fragment_nav">
+        tools:layout="@layout/fragment_menu">
 
         <action
             android:id="@+id/action_makeOrder"
@@ -19,7 +19,7 @@
         android:id="@+id/SecondFragment"
         android:name="com.nechaieva.gtea.OrderFragment"
         android:label="@string/order_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_order">
 
         <action
             android:id="@+id/action_backToMenu"
