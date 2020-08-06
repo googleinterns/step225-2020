@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.nechaieva.gtea.NavigationFragment"
-        android:label="@string/first_fragment_label"
+        android:name="com.nechaieva.gtea.Menu"
+        android:label="@string/menu_fragment_label"
         tools:layout="@layout/fragment_nav">
 
         <action
-            android:id="@+id/action_NavFragment_to_SecondFragment"
+            android:id="@+id/action_makeOrder"
             app:destination="@id/SecondFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.nechaieva.gtea.SecondFragment"
-        android:label="@string/second_fragment_label"
+        android:name="com.nechaieva.gtea.OrderFragment"
+        android:label="@string/order_fragment_label"
         tools:layout="@layout/fragment_second">
 
         <action
-            android:id="@+id/action_SecondFragment_to_NavFragment"
+            android:id="@+id/action_backToMenu"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

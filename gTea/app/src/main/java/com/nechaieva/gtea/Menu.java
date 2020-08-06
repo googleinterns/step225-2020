@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NavigationFragment extends Fragment {
+public class Menu extends Fragment {
 
     String[] data = {"Black tea", "Green tea"};
 
@@ -30,8 +30,8 @@ public class NavigationFragment extends Fragment {
         view.findViewById(R.id.button_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(NavigationFragment.this)
-                        .navigate(R.id.action_NavFragment_to_SecondFragment);
+                NavHostFragment.findNavController(Menu.this)
+                        .navigate(R.id.action_makeOrder);
             }
         });
 
