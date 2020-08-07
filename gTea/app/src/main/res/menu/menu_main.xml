@@ -9,6 +9,7 @@
         android:title="@string/profile"
         app:showAsAction="ifRoom"/>
 
+    <!--app:actionLayout="@layout/content_main"-->
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
