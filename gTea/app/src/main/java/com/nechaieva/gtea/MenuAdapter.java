@@ -51,7 +51,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         holder.itemView.setSelected(selectedPos == position);
     }
 
-
     @Override
     public int getItemCount() {
         return data.length;

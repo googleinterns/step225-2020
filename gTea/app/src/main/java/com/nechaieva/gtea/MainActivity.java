@@ -2,7 +2,6 @@ package com.nechaieva.gtea;
 
 import android.os.Bundle;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -48,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Fragment getVisibleFragment() {
+        // It is assumed that the first visible fragment that we find
+        // is that last one that is opened, since the fragment stack might
+        // not work in this case:
+        // the fragment stack initiates as empty.
+        // It works for the case when we simply navigate between fragments:
+        // then the account fragment, for which this part is made of,
+        // simply works as part of the navigation, just specified in code.
+        // Still, better long-term solution would be to somehow add it to
+        // nav_graph or update the back stack manually.
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         for (Fragment fragment : fragments) {

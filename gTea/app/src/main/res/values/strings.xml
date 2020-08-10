@@ -12,4 +12,9 @@
     <string name="acc_info">Account information</string>
     <string name="order_text">You ordered:\n %1$s</string>
 
+    <string-array name="tea_menu">
+        <item>Black tea</item>
+        <item>Green tea</item>
+    </string-array>
+
 </resources>
