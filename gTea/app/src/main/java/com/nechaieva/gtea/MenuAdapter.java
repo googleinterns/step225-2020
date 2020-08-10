@@ -13,7 +13,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private String[] data;
     private int selectedPos = RecyclerView.NO_POSITION;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView view;
 
         public ViewHolder(View v) {

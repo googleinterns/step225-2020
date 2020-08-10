@@ -1,6 +1,5 @@
 package com.nechaieva.gtea;
 
-import android.app.Notification;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,15 +29,11 @@ public class MenuFragment extends Fragment {
 
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        // specify an adapter (see also next example)
         final MenuAdapter mAdapter = new MenuAdapter(data);
         recyclerView.setAdapter(mAdapter);
 

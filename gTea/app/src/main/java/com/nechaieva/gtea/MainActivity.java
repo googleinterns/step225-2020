@@ -7,11 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
-
-import android.util.Log;
-import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,9 +15,6 @@ import android.view.MenuItem;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    final String TAG = "MainActivity";
-    String ordered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +47,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public Fragment getVisibleFragment(){
+    public Fragment getVisibleFragment() {
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
-        if(fragments != null){
-            for(Fragment fragment : fragments){
-                if(fragment != null && fragment.isVisible())
-                    return fragment;
-            }
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.isVisible())
+                return fragment;
         }
         return null;
     }

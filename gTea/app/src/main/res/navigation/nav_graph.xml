@@ -14,10 +14,6 @@
         <action
             android:id="@+id/action_makeOrder"
             app:destination="@id/OrderFragment">
-            <!--<argument
-            android:name="order"
-            app:argType="String"
-            android:defaultValue="@null" />-->
         </action>
     </fragment>
     <fragment
