@@ -21,6 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     final String TAG = "MainActivity";
+    String ordered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +35,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        /*View accountItem = menu.findItem(R.id.action_open_user_profile).getActionView();
-        //Log.i(TAG, "Item: " + menu.findItem(R.id.action_open_user_profile).toString());
-        //Log.i(TAG, "Item view: " + menu.findItem(R.id.action_open_user_profile).getActionView().toString());
-
-
-        accountItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fr = new AccountFragment();
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.container, fr, "Account");
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });*/
         return true;
     }
 

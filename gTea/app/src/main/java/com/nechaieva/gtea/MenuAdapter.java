@@ -56,4 +56,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public int getItemCount() {
         return data.length;
     }
+
+    public int getSelectedPos() {
+        return selectedPos;
+    }
 }

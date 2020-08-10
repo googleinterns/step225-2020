@@ -1,9 +1,11 @@
 package com.nechaieva.gtea;
 
+import android.app.Notification;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,15 +28,7 @@ public class MenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_order).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(MenuFragment.this)
-                        .navigate(R.id.action_makeOrder);
-            }
-        });
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -45,7 +39,24 @@ public class MenuFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        MenuAdapter mAdapter = new MenuAdapter(data);
+        final MenuAdapter mAdapter = new MenuAdapter(data);
         recyclerView.setAdapter(mAdapter);
+
+        view.findViewById(R.id.button_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int chosen_item = mAdapter.getSelectedPos();
+                if (chosen_item == RecyclerView.NO_POSITION) {
+                    Toast toast = Toast.makeText(getContext(), "No item chosen", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("order", data[chosen_item]);
+                NavHostFragment.findNavController(MenuFragment.this)
+                        .navigate(R.id.action_makeOrder, bundle);
+            }
+        });
     }
 }

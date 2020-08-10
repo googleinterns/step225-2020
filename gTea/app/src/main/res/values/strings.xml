@@ -10,5 +10,6 @@
     <string name="back_short">Back</string>
     <string name="profile"> Go to the user profile</string>
     <string name="acc_info">Account information</string>
+    <string name="order_text">You ordered:\n %1$s</string>
 
 </resources>
