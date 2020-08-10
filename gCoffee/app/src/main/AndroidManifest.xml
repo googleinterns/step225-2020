@@ -9,17 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".About"/>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/actions" />
+
+        <activity android:name=".About" />
         <activity android:name=".Order">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="com.mborowiec.gcoffee"
-                    android:pathPrefix="/order"/>
+                    android:pathPrefix="/order"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
