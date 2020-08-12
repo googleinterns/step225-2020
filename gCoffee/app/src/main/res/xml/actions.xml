@@ -1,0 +1,10 @@
+<?xml version ="1.0" encoding ="utf-8"?>
+<actions>
+     <action intentName="actions.intent.ORDER_MENU_ITEM">
+        <fulfillment urlTemplate="https://com.mborowiec.gcoffee/order{?coffeeType}">
+            <parameter-mapping
+                intentParameter="coffee.name"
+                urlParameter="coffeeType" />
+        </fulfillment>
+     </action>
+</actions>
