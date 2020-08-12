@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 public class Order extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -50,6 +53,12 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
                 return false;
             }
         });
+
+        // Check whether the activity was launched via a deeplink
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            handleDeepLinks(uri);
+        }
     }
 
     @Override
@@ -98,4 +107,12 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
         Toast.makeText(this, "Ordered: " + coffee,
                 Toast.LENGTH_SHORT).show();
     }
+
+    private void handleDeepLinks(Uri data) {
+        String coffee;
+        coffee = data.getQueryParameter("inMenuName");
+        showConfirmationDialog(coffee);
+    }
 }
+
+
