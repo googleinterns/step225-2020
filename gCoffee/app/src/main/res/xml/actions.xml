@@ -1,10 +1,39 @@
 <?xml version ="1.0" encoding ="utf-8"?>
 <actions>
      <action intentName="actions.intent.ORDER_MENU_ITEM">
-        <fulfillment urlTemplate="https://com.mborowiec.gcoffee/order{?coffeeType}">
+         <fulfillment urlTemplate="https://com.mborowiec.gcoffee/order{?inMenuName}">
             <parameter-mapping
-                intentParameter="coffee.name"
-                urlParameter="coffeeType" />
-        </fulfillment>
+                urlParameter="inMenuName"
+                intentParameter="menuItem.inMenuSection.inMenu.name"
+                required="true"/>
+         </fulfillment>
+         <parameter name="menuItem.inMenuSection.inMenu.name">
+             <entity-set-reference entitySetId="inMenuNameEntitySet" />
+         </parameter>
+
+         <!-- A fallback fulfillment with no required parameters. Takes the user to Main activity -->
+         <fulfillment urlTemplate="https://com.mborowiec.gcoffee/main" />
+
      </action>
+
+    <entity-set entitySetId="inMenuNameEntitySet">
+        <entity
+            name="@string/latte"
+            identifier="Latte" />
+        <entity
+            name="@string/cappuccino"
+            identifier="Cappuccino" />
+        <entity
+            name="@string/mocha"
+            identifier="Mocha" />
+        <entity
+            name="@string/flat_white"
+            identifier="Flat White" />
+        <entity
+            name="@string/americano"
+            identifier="Americano" />
+        <entity
+            name="@string/espresso"
+            identifier="Espresso" />
+    </entity-set>
 </actions>
