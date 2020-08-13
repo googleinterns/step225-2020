@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
 public class Order extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     @Override
