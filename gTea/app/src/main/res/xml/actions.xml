@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<actions>
+    <action intentName="actions.intent.ORDER_MENU_ITEM">
+            <fulfillment
+                urlTemplate="https://actions.gtea.com/order{?item}">
+
+                <parameter-mapping
+                    intentParameter="menuItem.name"
+                    urlParameter="item">
+                </parameter-mapping>
+            </fulfillment>
+    </action>
+</actions>

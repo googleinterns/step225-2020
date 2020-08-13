@@ -31,9 +31,5 @@
         android:name="com.nechaieva.gtea.AccountFragment"
         android:label="@string/account_fragment_label"
         tools:layout="@layout/fragment_account">
-
-        <!--<action
-            android:id="@+id/action_backToMenu"
-            app:destination="@id/MenuFragment" />-->
     </fragment>
 </navigation>

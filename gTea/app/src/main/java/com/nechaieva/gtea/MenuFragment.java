@@ -2,6 +2,7 @@ package com.nechaieva.gtea;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MenuFragment extends Fragment {
 
     String[] data;
+    static boolean orderChecked = false;
 
     @Override
     public View onCreateView(
@@ -32,12 +35,12 @@ public class MenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final RecyclerView menuRecyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
+        final RecyclerView menuRecyclerView = view.findViewById(R.id.menu_items);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         menuRecyclerView.setLayoutManager(layoutManager);
 
-        initArray(getContext());
+        initArray(requireContext());
 
         final MenuAdapter mAdapter = new MenuAdapter(data);
         menuRecyclerView.setAdapter(mAdapter);
@@ -54,13 +57,45 @@ public class MenuFragment extends Fragment {
                 if (chosen_item == RecyclerView.NO_POSITION) {
                     Toast toast = Toast.makeText(getContext(), "No item chosen", Toast.LENGTH_SHORT);
                     toast.show();
-                    return;
                 }
-                Bundle bundle = new Bundle();
-                bundle.putString("order", data[chosen_item]);
-                NavHostFragment.findNavController(MenuFragment.this)
-                        .navigate(R.id.action_makeOrder, bundle);
+                else {
+                    navigateToOrder(data[chosen_item]);
+                }
             }
         });
+
+        checkVoiceOrder();
+    }
+
+    void checkVoiceOrder() {
+        if (orderChecked) {
+            return;
+        } else {
+            orderChecked = true;
+        }
+        MainActivity mainActivity = (MainActivity)this.getActivity();
+        if (mainActivity == null) {
+            Log.e("order", "No MainActivity found");
+            return;
+        }
+        Bundle order = mainActivity.getStartingInfo();
+        Log.i("order", "checkVoiceOrder()");
+        if (order != null && !order.isEmpty()) {
+            Log.i("order", "Bundle:" + order.toString());
+            navigateToOrder(order);
+        } else {
+            Log.i("order", "Bundle is null");
+        }
+    }
+
+    void navigateToOrder(String item) {
+        Bundle bundle = new Bundle();
+        bundle.putString("order", item);
+        navigateToOrder(bundle);
+    }
+
+    void navigateToOrder(Bundle bundle) {
+        NavHostFragment.findNavController(MenuFragment.this)
+                .navigate(R.id.action_makeOrder, bundle);
     }
 }
