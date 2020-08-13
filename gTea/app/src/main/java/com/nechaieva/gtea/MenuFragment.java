@@ -56,13 +56,18 @@ public class MenuFragment extends Fragment {
                 if (chosen_item == RecyclerView.NO_POSITION) {
                     Toast toast = Toast.makeText(getContext(), "No item chosen", Toast.LENGTH_SHORT);
                     toast.show();
-                    return;
                 }
-                Bundle bundle = new Bundle();
-                bundle.putString("order", data[chosen_item]);
-                NavHostFragment.findNavController(MenuFragment.this)
-                        .navigate(R.id.action_makeOrder, bundle);
+                else {
+                    navigateToOrder(data[chosen_item]);
+                }
             }
         });
+    }
+
+    void navigateToOrder(String item) {
+        Bundle bundle = new Bundle();
+        bundle.putString("order", item);
+        NavHostFragment.findNavController(MenuFragment.this)
+                .navigate(R.id.action_makeOrder, bundle);
     }
 }

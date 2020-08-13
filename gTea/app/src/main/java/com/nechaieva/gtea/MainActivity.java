@@ -1,5 +1,7 @@
 package com.nechaieva.gtea;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent intent = getIntent();
+        if (Objects.nonNull(intent)) handleIntent(intent);
     }
 
     @Override
@@ -63,5 +69,31 @@ public class MainActivity extends AppCompatActivity {
                 return fragment;
         }
         return null;
+    }
+
+    void handleIntent(Intent intent) {
+        String action = intent.getAction();
+        //String type = intent.getType();
+        Uri data = intent.getData();
+        if (Intent.ACTION_SEND.equals(action) && data != null) {
+            //&& Objects.equals(type, "text/plain")
+            //String order = intent.getStringExtra(Intent.EXTRA_TEXT);
+            handleDeepLink(data);
+        } else {
+        }
+    }
+
+    private void handleDeepLink(Uri data) {
+        if (Objects.equals(data.getPath(), DeepLink.ORDER.label)) {
+            String item = data.getQueryParameter(DeepLink.orderItem);
+            loadOrder(item);
+        }
+    }
+
+    private void loadOrder(String item) {
+        Bundle bundle = new Bundle();
+        bundle.putString("order", item);
+        NavHostFragment.findNavController(getVisibleFragment())
+                .navigate(R.id.OrderFragment);
     }
 }
