@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,6 +18,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+
+    // This is a dirty hack.
+    Bundle startingInfo = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
+        Log.i("order", "onCreate() called");
         if (Objects.nonNull(intent)) handleIntent(intent);
     }
 
@@ -72,18 +77,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void handleIntent(Intent intent) {
+        Log.i("order", "handleIntent() called");
+        Log.i("order", "Intent: " + intent.toString());
         String action = intent.getAction();
-        //String type = intent.getType();
+        String expectedAction = Intent.ACTION_VIEW;
+        Log.i("order", "Action: " + action);
+        Log.i("order", "Expected action: " + expectedAction);
         Uri data = intent.getData();
-        if (Intent.ACTION_SEND.equals(action) && data != null) {
-            //&& Objects.equals(type, "text/plain")
-            //String order = intent.getStringExtra(Intent.EXTRA_TEXT);
+        Log.i("order", "Data: " + data);
+        if (expectedAction.equals(action) && data != null) {
             handleDeepLink(data);
-        } else {
         }
     }
 
     private void handleDeepLink(Uri data) {
+        Log.i("order", "handleDeepLink() called");
         if (Objects.equals(data.getPath(), DeepLink.ORDER.label)) {
             String item = data.getQueryParameter(DeepLink.orderItem);
             loadOrder(item);
@@ -91,9 +99,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadOrder(String item) {
-        Bundle bundle = new Bundle();
-        bundle.putString("order", item);
-        NavHostFragment.findNavController(getVisibleFragment())
-                .navigate(R.id.OrderFragment);
+        Log.i("order", "loadOrder() called");
+        startingInfo.putString("order", item);
+        Fragment visibleFragment = getVisibleFragment();
+        Log.i("order", "Visible fragment: " + visibleFragment);
+        if (visibleFragment != null) {
+            NavHostFragment.findNavController(visibleFragment)
+                    .navigate(R.id.OrderFragment, startingInfo);
+        }
+
+    }
+
+    public Bundle getStartingInfo() {
+        return startingInfo;
     }
 }

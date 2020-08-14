@@ -2,6 +2,7 @@ package com.nechaieva.gtea;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ public class MenuFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        checkVoiceOrder();
 
         final RecyclerView menuRecyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
 
@@ -62,6 +65,18 @@ public class MenuFragment extends Fragment {
                 }
             }
         });
+    }
+
+    void checkVoiceOrder() {
+        MainActivity mainActivity = (MainActivity)this.getActivity();
+        if (mainActivity == null) {
+            Log.e("order", "No MainActivity found");
+            return;
+        }
+        Bundle order = mainActivity.getStartingInfo();
+        if (order != null)
+            NavHostFragment.findNavController(MenuFragment.this)
+                .navigate(R.id.action_makeOrder, order);
     }
 
     void navigateToOrder(String item) {
