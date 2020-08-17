@@ -34,8 +34,6 @@ public class MenuFragment extends Fragment {
 
         final RecyclerView menuRecyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
 
-        menuRecyclerView.setHasFixedSize(true);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         menuRecyclerView.setLayoutManager(layoutManager);
 
