@@ -35,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(final Intent intent) {
+        // Should catch the intent if the app is already launched.
+        // However, I'm not sure how the Test Tool behaves in this case.
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
