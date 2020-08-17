@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("order", "handleIntent() called");
         Log.i("order", "Intent: " + intent.toString());
         String action = intent.getAction();
-        String expectedAction = Intent.ACTION_VIEW;
+        String expectedAction = DeepLink.expectedAction;
         Log.i("order", "Action: " + action);
         Log.i("order", "Expected action: " + expectedAction);
         Uri data = intent.getData();

@@ -72,9 +72,14 @@ public class MenuFragment extends Fragment {
             return;
         }
         Bundle order = mainActivity.getStartingInfo();
-        if (order != null)
+        Log.i("order", "checkVoiceOrder()");
+        if (order != null && !order.isEmpty()) {
+            Log.i("order", "Bundle:" + order.toString());
             NavHostFragment.findNavController(MenuFragment.this)
-                .navigate(R.id.action_makeOrder, order);
+                    .navigate(R.id.action_makeOrder, order);
+        } else {
+            Log.i("order", "Bundle is null");
+        }
     }
 
     void navigateToOrder(String item) {
