@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import java.util.Arrays;
 
 public class Order extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -106,10 +107,23 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
                 Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Checks whether the menu contains the ordered item. If it does, asks to confirm order.
+     * @param data incoming deeplink
+     */
     private void handleDeepLinks(Uri data) {
-        String coffee;
-        coffee = data.getQueryParameter("inMenuName");
-        showConfirmationDialog(coffee);
+            String coffee;
+            coffee = data.getQueryParameter("inMenuName");
+            String[] coffeeList = this.getResources().getStringArray(R.array.coffee_list);
+            boolean contains = Arrays.asList(coffeeList).contains(coffee);
+
+            if (contains) {
+                showConfirmationDialog(coffee);
+            }
+            else {
+                Toast.makeText(this, "Item:  " + coffee + " is not on the menu",
+                        Toast.LENGTH_SHORT).show();
+            }
     }
 }
 
