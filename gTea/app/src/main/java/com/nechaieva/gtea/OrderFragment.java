@@ -2,6 +2,7 @@ package com.nechaieva.gtea;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,12 @@ public class OrderFragment extends Fragment {
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("navigation", NavHostFragment.findNavController(OrderFragment.this).toString());
                 NavHostFragment.findNavController(OrderFragment.this)
                         .navigate(R.id.action_backToMenu);
+                Log.i("navigation", "Back func called");
             }
         });
     }
+
 }

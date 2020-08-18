@@ -65,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
+
     public Fragment getVisibleFragment() {
         // It is assumed that the first visible fragment that we find
         // is that last one that is opened, since the fragment stack might
@@ -102,20 +114,13 @@ public class MainActivity extends AppCompatActivity {
         Log.i("order", "handleDeepLink() called");
         if (Objects.equals(data.getPath(), DeepLink.ORDER.label)) {
             String item = data.getQueryParameter(DeepLink.orderItem);
-            loadOrder(item);
+            loadOrderInfoToBundle(item);
         }
     }
 
-    private void loadOrder(String item) {
+    private void loadOrderInfoToBundle(String item) {
         Log.i("order", "loadOrder() called");
         startingInfo.putString("order", item);
-        Fragment visibleFragment = getVisibleFragment();
-        Log.i("order", "Visible fragment: " + visibleFragment);
-        if (visibleFragment != null) {
-            NavHostFragment.findNavController(visibleFragment)
-                    .navigate(R.id.OrderFragment, startingInfo);
-        }
-
     }
 
     public Bundle getStartingInfo() {

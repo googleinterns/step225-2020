@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MenuFragment extends Fragment {
 
     String[] data;
+    static boolean orderChecked = false;
 
     @Override
     public View onCreateView(
@@ -33,14 +35,12 @@ public class MenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        checkVoiceOrder();
-
-        final RecyclerView menuRecyclerView = (RecyclerView) view.findViewById(R.id.menu_items);
+        final RecyclerView menuRecyclerView = view.findViewById(R.id.menu_items);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         menuRecyclerView.setLayoutManager(layoutManager);
 
-        initArray(getContext());
+        initArray(requireContext());
 
         final MenuAdapter mAdapter = new MenuAdapter(data);
         menuRecyclerView.setAdapter(mAdapter);
@@ -63,9 +63,16 @@ public class MenuFragment extends Fragment {
                 }
             }
         });
+
+        checkVoiceOrder();
     }
 
     void checkVoiceOrder() {
+        if (orderChecked) {
+            return;
+        } else {
+            orderChecked = true;
+        }
         MainActivity mainActivity = (MainActivity)this.getActivity();
         if (mainActivity == null) {
             Log.e("order", "No MainActivity found");
@@ -75,8 +82,7 @@ public class MenuFragment extends Fragment {
         Log.i("order", "checkVoiceOrder()");
         if (order != null && !order.isEmpty()) {
             Log.i("order", "Bundle:" + order.toString());
-            NavHostFragment.findNavController(MenuFragment.this)
-                    .navigate(R.id.action_makeOrder, order);
+            navigateToOrder(order);
         } else {
             Log.i("order", "Bundle is null");
         }
@@ -85,6 +91,10 @@ public class MenuFragment extends Fragment {
     void navigateToOrder(String item) {
         Bundle bundle = new Bundle();
         bundle.putString("order", item);
+        navigateToOrder(bundle);
+    }
+
+    void navigateToOrder(Bundle bundle) {
         NavHostFragment.findNavController(MenuFragment.this)
                 .navigate(R.id.action_makeOrder, bundle);
     }
