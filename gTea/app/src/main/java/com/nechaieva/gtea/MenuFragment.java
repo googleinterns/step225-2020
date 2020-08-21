@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +18,8 @@ public class MenuFragment extends Fragment {
 
     String[] data;
     static boolean orderChecked = false;
+    final String ORDER_TAG = MainActivity.ORDER_TAG;
+    final String EXCEPTION_TAG = "Exception";
 
     @Override
     public View onCreateView(
@@ -54,12 +55,26 @@ public class MenuFragment extends Fragment {
                 // Note: the selected items aren't properly highlighted.
                 // Currently not looked into because that's design and not the main functionality.
                 int chosen_item = mAdapter.getSelectedPos();
+
                 if (chosen_item == RecyclerView.NO_POSITION) {
-                    Toast toast = Toast.makeText(getContext(), "No item chosen", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getContext(), "No item chosen",
+                            Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 else {
-                    navigateToOrder(data[chosen_item]);
+                    try {
+                        navigateToOrder(data[chosen_item]);
+                    } catch (IndexOutOfBoundsException e) {
+                        e.printStackTrace();
+                        Log.i(EXCEPTION_TAG,
+                                "Chosen item index is out of range for the item list");
+                        /*
+                        If we are here, something went very wrong, since the data list is the
+                        very same list we use to create the adapter, from which we receive the
+                        index of the selected item, and data[] is only expected to be modified
+                        during the initialization, as soon as we receive the context.
+                         */
+                    }
                 }
             }
         });
@@ -68,6 +83,10 @@ public class MenuFragment extends Fragment {
     }
 
     void checkVoiceOrder() {
+        /*
+        If an Intent was received by MainActivity, but there was one explicit way
+        to handle it yet at that point, this is where the intent gets processed.
+         */
         if (orderChecked) {
             return;
         } else {
@@ -75,22 +94,32 @@ public class MenuFragment extends Fragment {
         }
         MainActivity mainActivity = (MainActivity)this.getActivity();
         if (mainActivity == null) {
-            Log.e("order", "No MainActivity found");
+            Log.e(ORDER_TAG, "No MainActivity found");
             return;
         }
         Bundle order = mainActivity.getStartingInfo();
-        Log.i("order", "checkVoiceOrder()");
-        if (order != null && !order.isEmpty()) {
-            Log.i("order", "Bundle:" + order.toString());
+
+        boolean navigateTo = (order != null && !order.isEmpty());
+        final String messageIfFalse = "Order is null or empty";
+
+        if (navigateTo) {
             navigateToOrder(order);
+        }
+        logVoiceOrder(order, navigateTo, messageIfFalse);
+    }
+
+    void logVoiceOrder(Bundle order, boolean navigatedTo, String messageIfFalse) {
+        Log.i(ORDER_TAG, "checkVoiceOrder()");
+        if (navigatedTo) {
+            Log.i(ORDER_TAG, "Bundle:" + order.toString());
         } else {
-            Log.i("order", "Bundle is null");
+            Log.i(ORDER_TAG, "Bundle was not used: " + messageIfFalse);
         }
     }
 
     void navigateToOrder(String item) {
         Bundle bundle = new Bundle();
-        bundle.putString("order", item);
+        bundle.putString(DeepLink.ORDER_BUNDLE_TAG, item);
         navigateToOrder(bundle);
     }
 

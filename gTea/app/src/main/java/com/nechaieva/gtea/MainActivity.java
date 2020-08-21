@@ -19,8 +19,17 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    // This is a dirty hack.
-    Bundle startingInfo = new Bundle();
+    // This bundle exists to pass information from the Intent to the
+    // OrderFragment. Since Intent is received by an Activity,
+    // and MenuFragment -> OrderFragment navigation link is where
+    // the order gets processed, we currently save the information in the Activity
+    // to be accessed from the MenuFragment later using the getter.
+    // However, a better way to do it would be to explicitly specify the deep link
+    // in the fragment navigation map.
+    private Bundle startingInfo = new Bundle();
+    final String expectedIntentAction = DeepLink.EXPECTED_ACTION;
+    public static final String ORDER_TAG = "order";
+    final String MAIN_ACTIVITY_TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +39,21 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        Log.i("order", "onCreate() called");
-        if (Objects.nonNull(intent)) handleIntent(intent);
+        Log.i(ORDER_TAG, "onCreate() called");
+        if (Objects.nonNull(intent)) {
+            handleIntent(intent);
+        }
     }
 
     @Override
     protected void onNewIntent(final Intent intent) {
         // Should catch the intent if the app is already launched.
-        // However, I'm not sure how the Test Tool behaves in this case.
+        // However, I'm not sure how the Test Tool behaves in this case;
+        // seemingly it re-launches the app every time it's run.
         super.onNewIntent(intent);
-        handleIntent(intent);
+        if (Objects.nonNull(intent)) {
+            handleIntent(intent);
+        }
     }
 
     @Override
@@ -69,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(){
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
-            Log.i("MainActivity", "popping backstack");
+            Log.i(MAIN_ACTIVITY_TAG, "popping backstack");
             fm.popBackStack();
         } else {
-            Log.i("MainActivity", "nothing on backstack, calling super");
+            Log.i(MAIN_ACTIVITY_TAG, "nothing on backstack, calling super");
             super.onBackPressed();
         }
     }
@@ -97,30 +111,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void handleIntent(Intent intent) {
-        Log.i("order", "handleIntent() called");
-        Log.i("order", "Intent: " + intent.toString());
+
         String action = intent.getAction();
-        String expectedAction = DeepLink.expectedAction;
-        Log.i("order", "Action: " + action);
-        Log.i("order", "Expected action: " + expectedAction);
         Uri data = intent.getData();
-        Log.i("order", "Data: " + data);
-        if (expectedAction.equals(action) && data != null) {
+        logIntent(intent, action, expectedIntentAction);
+
+        if (expectedIntentAction.equals(action) && data != null) {
             handleDeepLink(data);
         }
     }
 
+    void logIntent(Intent intent, String action, String expectedAction) {
+        Log.i(ORDER_TAG, "Intent handling called");
+        Log.i(ORDER_TAG, "Intent: " + intent.toString());
+        Log.i(ORDER_TAG, "Action: " + action);
+        Log.i(ORDER_TAG, "Expected action: " + expectedAction);
+        Log.i(ORDER_TAG, "Data: " + intent.getData());
+    }
+
     private void handleDeepLink(Uri data) {
-        Log.i("order", "handleDeepLink() called");
+        Log.i(ORDER_TAG, "handleDeepLink() called");
         if (Objects.equals(data.getPath(), DeepLink.ORDER.label)) {
-            String item = data.getQueryParameter(DeepLink.orderItem);
+            String item = data.getQueryParameter(DeepLink.ORDER_ITEM);
             loadOrderInfoToBundle(item);
         }
     }
 
     private void loadOrderInfoToBundle(String item) {
-        Log.i("order", "loadOrder() called");
-        startingInfo.putString("order", item);
+        Log.i(ORDER_TAG, "loadOrder() called");
+        startingInfo.putString(DeepLink.ORDER_BUNDLE_TAG, item);
     }
 
     public Bundle getStartingInfo() {

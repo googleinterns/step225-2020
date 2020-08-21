@@ -27,7 +27,7 @@ public class OrderFragment extends Fragment {
 
         TextView show_order = view.findViewById(R.id.text_view_order);
         assert getArguments() != null;
-        String order = getArguments().getString("order");
+        String order = getArguments().getString(DeepLink.ORDER_BUNDLE_TAG);
         show_order.setText(getString(R.string.order_text, order));
 
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
