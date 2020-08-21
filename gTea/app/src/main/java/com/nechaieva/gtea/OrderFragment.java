@@ -1,6 +1,8 @@
 package com.nechaieva.gtea;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +27,18 @@ public class OrderFragment extends Fragment {
 
         TextView show_order = view.findViewById(R.id.text_view_order);
         assert getArguments() != null;
-        String order = getArguments().getString("order");
+        String order = getArguments().getString(DeepLink.ORDER_BUNDLE_TAG);
         show_order.setText(getString(R.string.order_text, order));
 
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("navigation", NavHostFragment.findNavController(OrderFragment.this).toString());
                 NavHostFragment.findNavController(OrderFragment.this)
                         .navigate(R.id.action_backToMenu);
+                Log.i("navigation", "Back func called");
             }
         });
     }
+
 }
