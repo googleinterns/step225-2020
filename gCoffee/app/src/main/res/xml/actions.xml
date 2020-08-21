@@ -4,19 +4,17 @@
          <fulfillment urlTemplate="https://com.mborowiec.gcoffee/order{?inMenuName}">
             <parameter-mapping
                 urlParameter="inMenuName"
-                intentParameter="menuItem.inMenuSection.inMenu.name"
+                intentParameter="menuItem.name"
                 required="true"/>
          </fulfillment>
-         <parameter name="menuItem.inMenuSection.inMenu.name">
+         <parameter name="menuItem.name">
              <entity-set-reference entitySetId="inMenuNameEntitySet" />
          </parameter>
-
-         <!-- A fallback fulfillment with no required parameters. Takes the user to Main activity -->
+         <!--  A fallback fulfillment with no required parameters. Takes the user to Main activity  -->
          <fulfillment urlTemplate="https://com.mborowiec.gcoffee/main" />
-
      </action>
 
-    <entity-set entitySetId="inMenuNameEntitySet">
+     <entity-set entitySetId="inMenuNameEntitySet">
         <entity
             name="@string/latte"
             identifier="Latte" />

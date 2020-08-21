@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Order extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -54,9 +55,9 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
         });
 
         // Check whether the activity was launched via a deeplink
-        Uri uri = getIntent().getData();
-        if (uri != null) {
-            handleDeepLinks(uri);
+        if (Objects.equals(getIntent().getAction(), Intent.ACTION_VIEW)) {
+            Uri uri = getIntent().getData();
+            if (uri !=  null) handleDeepLinks(uri);
         }
     }
 
@@ -108,21 +109,36 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
     }
 
     /**
-     * Checks whether the menu contains the ordered item. If it does, asks to confirm order.
+     * Checks whether the menu contains the ordered item.
+     * @param item  item ordered by user
+     * @return boolean value
+     */
+    public boolean checkMenu(String item, String[] coffeeList) {
+        if (item != null) item = item.toLowerCase();
+        for (int i = 0; i < coffeeList.length; i++) {
+            coffeeList[i] = coffeeList[i].toLowerCase();
+        }
+
+        return Arrays.asList(coffeeList).contains(item);
+    }
+
+    /**
+     * Handles the incoming deeplink with ordered item. Checks whether the item is on the menu.
+     * If it is, asks to confirm order, if it is not, notifies the user about it.
+     * If the input is null, it  starts the Main activity instead of proceeding to order.
      * @param data incoming deeplink
      */
     private void handleDeepLinks(Uri data) {
-            String coffee;
-            coffee = data.getQueryParameter("inMenuName");
-            String[] coffeeList = this.getResources().getStringArray(R.array.coffee_list);
-            boolean contains = Arrays.asList(coffeeList).contains(coffee);
+        String coffee = data.getQueryParameter("inMenuName");
+        if (coffee == null) startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-            if (contains) {
-                showConfirmationDialog(coffee);
-            }
-            else {
-                Toast.makeText(this, "Item:  " + coffee + " is not on the menu",
-                        Toast.LENGTH_SHORT).show();
+        String[] coffeeList = this.getResources().getStringArray(R.array.coffee_list);
+        boolean contains = checkMenu(coffee, coffeeList);
+
+        if (contains) showConfirmationDialog(coffee);
+        else {
+            Toast.makeText(this, "Item:  " + coffee + " is not on the menu",
+                    Toast.LENGTH_SHORT).show();
             }
     }
 }
