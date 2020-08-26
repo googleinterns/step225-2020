@@ -76,7 +76,7 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
      */
     private void showConfirmationDialog(final String coffee) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Do you want to order " + coffee);
+        builder1.setMessage(getString(R.string.confirmation, coffee));
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
@@ -104,7 +104,7 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
      * @param coffee type of ordered  coffee
      */
     private void makeOrder(String coffee) {
-        Toast.makeText(this, "Ordered: " + coffee,
+        Toast.makeText(this, getString(R.string.ordered, coffee),
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -137,7 +137,7 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
 
         if (contains) showConfirmationDialog(coffee);
         else {
-            Toast.makeText(this, "Item:  " + coffee + " is not on the menu",
+            Toast.makeText(this, getString(R.string.not_on_menu, coffee),
                     Toast.LENGTH_SHORT).show();
             }
     }
