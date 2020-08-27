@@ -11,37 +11,37 @@ public class OrderTest {
 
     @Test
     public void testCheckMenuOnMenuLowerCase() {
-        boolean test = testClass.checkMenu("latte", coffeeList);
+        boolean test = testClass.menuContainsItem("latte", coffeeList);
         assertTrue(test);
     }
 
     @Test
     public void testCheckMenuOnMenuUpperCase() {
-        boolean test = testClass.checkMenu("Mocha", coffeeList);
+        boolean test = testClass.menuContainsItem("Mocha", coffeeList);
         assertTrue(test);
     }
 
     @Test
     public void testCheckMenuNotOnMenuLowerCase() {
-        boolean test = testClass.checkMenu("white tea", coffeeList);
+        boolean test = testClass.menuContainsItem("white tea", coffeeList);
         assertFalse(test);
     }
 
     @Test
     public void testCheckMenuNotOnMenuUpperCase() {
-        boolean test = testClass.checkMenu("Pizza", coffeeList);
+        boolean test = testClass.menuContainsItem("Pizza", coffeeList);
         assertFalse(test);
     }
 
     @Test
     public void testCheckMenuNotFood() {
-        boolean test = testClass.checkMenu("shoes", coffeeList);
+        boolean test = testClass.menuContainsItem("shoes", coffeeList);
         assertFalse(test);
     }
 
     @Test
     public void testCheckMenuNull() {
-        boolean test = testClass.checkMenu(null, coffeeList);
+        boolean test = testClass.menuContainsItem(null, coffeeList);
         assertFalse(test);
     }
 }
