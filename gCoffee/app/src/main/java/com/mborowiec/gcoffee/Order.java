@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Order extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -50,6 +55,12 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
                 return false;
             }
         });
+
+        // Check whether the activity was launched via a deeplink
+        if (Objects.equals(getIntent().getAction(), Intent.ACTION_VIEW)) {
+            Uri uri = getIntent().getData();
+            if (uri !=  null) handleDeepLinks(uri);
+        }
     }
 
     @Override
@@ -67,7 +78,7 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
      */
     private void showConfirmationDialog(final String coffee) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Do you want to order " + coffee);
+        builder1.setMessage(getString(R.string.confirmation, coffee));
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
@@ -95,7 +106,50 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
      * @param coffee type of ordered  coffee
      */
     private void makeOrder(String coffee) {
-        Toast.makeText(this, "Ordered: " + coffee,
+        Toast.makeText(this, getString(R.string.ordered, coffee),
                 Toast.LENGTH_SHORT).show();
     }
+
+    /**
+     * Checks whether the menu contains the ordered item.
+     * @param item  item ordered by user
+     * @return boolean value
+     */
+    public boolean menuContainsItem(String item, String[] coffeeList) {
+        if (item == null) return false;
+        else {
+            item = item.toLowerCase();
+
+            Stream<String> coffeeStream = Stream.of(coffeeList).map(String::toLowerCase);
+            List<String> menu = coffeeStream.collect(Collectors.toList());
+
+            return menu.contains(item);
+        }
+    }
+
+    /**
+     * Handles the incoming deeplink with ordered item.
+     * Checks whether the item is on the menu.
+     * If it is, asks to confirm order, if it is not, notifies the user about it.
+     * If the input is null, it  starts the Main activity instead of proceeding to order.
+     * @param data incoming deeplink
+     */
+    private void handleDeepLinks(Uri data) {
+        String coffee = data.getQueryParameter("inMenuName");
+        if (coffee == null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            return;
+        }
+
+        String[] coffeeList = this.getResources().getStringArray(R.array.coffee_list);
+        boolean contains = menuContainsItem(coffee, coffeeList);
+
+        if (contains) showConfirmationDialog(coffee);
+        else {
+            Toast.makeText(this, getString(R.string.not_on_menu, coffee),
+                    Toast.LENGTH_SHORT).show();
+            }
+    }
 }
+
+

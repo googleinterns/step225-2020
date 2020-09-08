@@ -18,4 +18,15 @@
         <item>Americano</item>
         <item>Espresso</item>
     </string-array>
+
+    <string name="latte">Latte</string>
+    <string name="cappuccino">Cappuccino</string>
+    <string name="mocha">Mocha</string>
+    <string name="flat_white">Flat White</string>
+    <string name="americano">Americano</string>
+    <string name="espresso">Espresso</string>
+
+    <string name="confirmation">Do you want to order %1$s?</string>
+    <string name="ordered">Ordered: %1$s</string>
+    <string name="not_on_menu">Item: %1$s is not on the menu</string>
 </resources>
