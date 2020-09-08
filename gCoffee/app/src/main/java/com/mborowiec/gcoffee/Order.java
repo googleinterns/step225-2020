@@ -150,6 +150,46 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
                     Toast.LENGTH_SHORT).show();
             }
     }
+
+    /**
+     * Normalizes the string by removing punctuation, removing whitespaces
+     * and making the string lowercase.
+     * @param input input string
+     * @return a normalized string
+     */
+    public String normalize(String input) {
+        String normalized = input.replaceAll("[^a-zA-Z ]" , "")
+                .replaceAll("\\s+", " ")
+                .toLowerCase();
+
+        return normalized;
+    }
+
+    /**
+     * Calculates the Levenshtein distance between two strings
+     * @param str1 first input string
+     * @param str2 second input string
+     * @return distance between strings
+     */
+    public Integer distance(String str1, String str2) {
+        //TODO: calculate Levenshtein Distance between two strings
+
+        return null;
+    }
+
+    /**
+     * Looks for the closest match (with closest distance) in the menu for an order with typos.
+     * @param order an order with potential typos
+     * @return the closest order match
+     */
+    public String findMatch(String order) {
+        //TODO: asses which item on menu is closest
+        // What would be a reasonable treshold when it comes to distance and assessing the match?
+
+        return null;
+    }
+
+    //TODO: removing "fluff" from the input
 }
 
 
