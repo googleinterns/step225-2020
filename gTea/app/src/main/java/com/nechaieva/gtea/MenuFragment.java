@@ -1,7 +1,6 @@
 package com.nechaieva.gtea;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +46,7 @@ public class MenuFragment extends Fragment {
         initArray(requireContext());
 
         mAdapter = new MenuAdapter(data);
-        orderProcessor = new OrderProcessor(data);
+        orderProcessor = new LevenshteinOrderProcessor(data);
 
         menuRecyclerView.setAdapter(mAdapter);
 
