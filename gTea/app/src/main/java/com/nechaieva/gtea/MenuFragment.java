@@ -1,4 +1,4 @@
-package com.nechaieva.gtea;
+package com.nechaieva.gtea.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.nechaieva.gtea.DeepLink;
+import com.nechaieva.gtea.MainActivity;
+import com.nechaieva.gtea.MenuAdapter;
+import com.nechaieva.gtea.R;
+import com.nechaieva.gtea.utils.LevenshteinOrderProcessor;
+import com.nechaieva.gtea.utils.OrderProcessor;
 
 public class MenuFragment extends Fragment {
 
