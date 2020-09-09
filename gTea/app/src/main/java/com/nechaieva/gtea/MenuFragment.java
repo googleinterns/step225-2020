@@ -1,6 +1,7 @@
 package com.nechaieva.gtea;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ public class MenuFragment extends Fragment {
     static boolean orderChecked = false;
     final String ORDER_TAG = MainActivity.ORDER_TAG;
     final String EXCEPTION_TAG = "Exception";
+    MenuAdapter mAdapter;
+    OrderProcessor orderProcessor;
 
     @Override
     public View onCreateView(
@@ -43,43 +46,49 @@ public class MenuFragment extends Fragment {
 
         initArray(requireContext());
 
-        final MenuAdapter mAdapter = new MenuAdapter(data);
+        mAdapter = new MenuAdapter(data);
+        orderProcessor = new OrderProcessor(data);
+
         menuRecyclerView.setAdapter(mAdapter);
 
         view.findViewById(R.id.button_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Only supports choosing one item from the menu;
-                // however, modifying it to letting choose several items should be
-                // more or less trivial.
-                // Note: the selected items aren't properly highlighted.
-                // Currently not looked into because that's design and not the main functionality.
-                int chosen_item = mAdapter.getSelectedPos();
+                chooseItem();
+            }
+        });
 
-                if (chosen_item == RecyclerView.NO_POSITION) {
-                    Toast toast = Toast.makeText(getContext(), "No item chosen",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
-                    try {
-                        navigateToOrder(data[chosen_item]);
-                    } catch (IndexOutOfBoundsException e) {
-                        e.printStackTrace();
-                        Log.i(EXCEPTION_TAG,
-                                "Chosen item index is out of range for the item list");
+        checkVoiceOrder();
+    }
+
+    void chooseItem() {
+        // Only supports choosing one item from the menu;
+        // however, modifying it to letting choose several items should be
+        // more or less trivial.
+        // Note: the selected items aren't properly highlighted.
+        // Currently not looked into because that's design and not the main functionality.
+        int chosen_item = mAdapter.getSelectedPos();
+
+        if (chosen_item == RecyclerView.NO_POSITION) {
+            Toast toast = Toast.makeText(getContext(), "No item chosen",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            try {
+                navigateToOrder(data[chosen_item]);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+                Log.i(EXCEPTION_TAG,
+                        "Chosen item index is out of range for the item list");
                         /*
                         If we are here, something went very wrong, since the data list is the
                         very same list we use to create the adapter, from which we receive the
                         index of the selected item, and data[] is only expected to be modified
                         during the initialization, as soon as we receive the context.
                          */
-                    }
-                }
             }
-        });
-
-        checkVoiceOrder();
+        }
     }
 
     void checkVoiceOrder() {
