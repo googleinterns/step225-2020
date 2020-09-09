@@ -23,7 +23,14 @@ public class BaseOrderProcessor implements OrderProcessor {
 
     @Override
     public Optional<String> findInMenu(String query) {
+        query = normalize(query);
         int index = Arrays.binarySearch(menu, query);
         return Optional.ofNullable(index >= 0? menu[index] : null);
+    }
+
+    private String normalize(String query) {
+        return query.toLowerCase().
+                replaceAll("\\s+", " ").
+                replaceAll("^[a-z ]", "");
     }
 }

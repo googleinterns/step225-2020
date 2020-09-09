@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MenuFragment"
-        android:name="com.nechaieva.gtea.MenuFragment"
+        android:name="com.nechaieva.gtea.fragments.MenuFragment"
         android:label="@string/menu_fragment_label"
         tools:layout="@layout/fragment_menu">
 
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/OrderFragment"
-        android:name="com.nechaieva.gtea.OrderFragment"
+        android:name="com.nechaieva.gtea.fragments.OrderFragment"
         android:label="@string/order_fragment_label"
         tools:layout="@layout/fragment_order">
 
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/AccountFragment"
-        android:name="com.nechaieva.gtea.AccountFragment"
+        android:name="com.nechaieva.gtea.fragments.AccountFragment"
         android:label="@string/account_fragment_label"
         tools:layout="@layout/fragment_account">
     </fragment>
