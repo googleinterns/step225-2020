@@ -12,6 +12,7 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
 
     private List<String> menu;
     public final int DEFAULT_SENSITIVITY = 3; // The threshold for string distances.
+    private int maxAllowedStringLength = 100;
 
     LevenshteinOrderProcessor(String[] menu) {
         loadMenu(menu);
@@ -32,6 +33,9 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
      */
     @Override
     public Optional<String> findInMenu(String query) {
+        if(query.length() > maxAllowedStringLength) {
+            return Optional.empty();
+        }
         return findInMenu(query, DEFAULT_SENSITIVITY);
     }
 
@@ -65,7 +69,7 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
         int minStringDistance = Integer.MAX_VALUE;
         String bestMatch = "";
         for (String candidate: menu) {
-            int distance = stringDistance(query, candidate);
+            int distance = LevenshteinDistCalculator.stringDistance(query, candidate);
             if (distance < minStringDistance) {
                 minStringDistance = distance;
                 bestMatch = candidate;
@@ -74,12 +78,12 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
         return new Match(bestMatch, minStringDistance);
     }
 
-    /**
-     * Calculates the distance between two string, using Levenshtein algorithm.
-     */
-    private int stringDistance(String query, String goal) {
-        // Levenshtein
-        return 0;
+    public int getMaxAllowedStringLength() {
+        return maxAllowedStringLength;
+    }
+
+    public void setMaxAllowedStringLength(int maxAllowedStringLength) {
+        this.maxAllowedStringLength = maxAllowedStringLength;
     }
 
     static class Match {
