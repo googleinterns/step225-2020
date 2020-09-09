@@ -1,4 +1,4 @@
-package com.nechaieva.gtea;
+package com.nechaieva.gtea.utils;
 
 public class LevenshteinDistCalculator {
 

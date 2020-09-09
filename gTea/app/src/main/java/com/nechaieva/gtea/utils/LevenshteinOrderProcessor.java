@@ -1,4 +1,4 @@
-package com.nechaieva.gtea;
+package com.nechaieva.gtea.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,17 +14,23 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
     public final int DEFAULT_SENSITIVITY = 3; // The threshold for string distances.
     private int maxAllowedStringLength = 100;
 
-    LevenshteinOrderProcessor(String[] menu) {
+    public LevenshteinOrderProcessor(String[] menu) {
         loadMenu(menu);
     }
 
     LevenshteinOrderProcessor(ArrayList<String> menu) {
-        this.menu = new ArrayList<>(menu);
+        loadMenu(menu);
     }
 
     @Override
     public void loadMenu(String[] menu) {
         this.menu = Arrays.asList(menu);
+        Normalizer.normalizeAll(menu);
+    }
+
+    public void loadMenu(ArrayList<String> menu) {
+        this.menu = new ArrayList<>(menu);
+        menu.forEach(Normalizer::normalize);
     }
 
     /**
@@ -50,6 +56,7 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
      * A menu item.
      */
     public Optional<String> findInMenu(String query, int sensitivity) {
+        query = Normalizer.normalize(query);
         Match match = findClosest(query);
         return Optional.ofNullable(match.getDistance() < sensitivity ?
                                         match.getMatchString() :
