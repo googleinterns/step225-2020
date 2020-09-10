@@ -1,9 +1,5 @@
 package com.mborowiec.gcoffee;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,13 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Order extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class Order extends AppCompatActivity implements AdapterView.OnItemClickListener, OrderMatch{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,51 +143,63 @@ public class Order extends AppCompatActivity implements AdapterView.OnItemClickL
         }
 
         String[] coffeeList = this.getResources().getStringArray(R.array.coffee_list);
-        boolean contains = menuContainsItem(coffee, coffeeList);
+        String menuMatch = findMatch(coffee, coffeeList);
 
-        if (contains) showConfirmationDialog(coffee);
-        else {
+        if (menuMatch == null) {
             Toast.makeText(this, getString(R.string.not_on_menu, coffee),
                     Toast.LENGTH_SHORT).show();
-            }
+        }
+        else {
+            showConfirmationDialog(menuMatch);
+        }
     }
 
     /**
-     * Normalizes the string by removing punctuation, removing whitespaces
-     * and making the string lowercase.
-     * @param input input string
-     * @return a normalized string
-     */
-    public String normalize(String input) {
-        String normalized = input.replaceAll("[^a-zA-Z ]" , "")
-                .replaceAll("\\s+", " ")
-                .toLowerCase();
-
-        return normalized;
-    }
-
-    /**
-     * Calculates the Levenshtein distance between two strings
-     * @param str1 first input string
-     * @param str2 second input string
-     * @return distance between strings
-     */
-    public Integer distance(String str1, String str2) {
-        //TODO: calculate Levenshtein Distance between two strings
-
-        return null;
-    }
-
-    /**
-     * Looks for the closest match (with closest distance) in the menu for an order with typos.
-     * @param order an order with potential typos
+     * Looks for the closest match (with closest distance) in the menu.
+     * @param order an input with potential typos
      * @return the closest order match
      */
-    public String findMatch(String order) {
-        //TODO: asses which item on menu is closest
-        // What would be a reasonable treshold when it comes to distance and assessing the match?
+    public String findMatch(String order, String[] menu) {
+        //TODO: set treshold for Levenshtein distance?
 
-        return null;
+        if (order == null) {
+            return null;
+        }
+
+        StringUtil util = new StringUtil();
+        String normalizedOrder = util.normalize(order);
+
+        // Return null if the string is empty after normalizing
+        if (normalizedOrder.equals("")) {
+            return null;
+        }
+
+        if (menuContainsItem(normalizedOrder, menu)) {
+           return normalizedOrder;
+        }
+        else {
+            int[] distances = new int[menu.length];
+
+            // Check Levenshtein distances between the order and menu items
+            for (int i = 0; i < menu.length; i++) {
+                String normalizedMenuItem = util.normalize(menu[i]);
+                int distance = util.calculateLevenshteinDistance(normalizedOrder,normalizedMenuItem);
+                distances[i] = distance;
+            }
+
+            // Find the item with the smallest distance (most likely to be a match)
+            int indexMin = 0;
+            int min = distances[indexMin];
+
+            for (int i = 1; i < distances.length; i++){
+                if (distances[i] < min) {
+                    min = distances[i];
+                    indexMin = i;
+                }
+            }
+            // Return the menu item with smallest distance
+            return menu[indexMin];
+        }
     }
 
     //TODO: removing "fluff" from the input
