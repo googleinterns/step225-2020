@@ -5,6 +5,7 @@ public class LevenshteinDistCalculator {
 
     /**
      * Calculates given distance between two given strings.
+     * Currently, uses the Levenshtein-Damerau version of the algorithm.
      * Complexity: O(a.len * b.len)
      */
     static int stringDistance(String a, String b) {
@@ -20,9 +21,16 @@ public class LevenshteinDistCalculator {
         for (int y = 1; y < al; y++) {
             for (int x = 1; x < bl; x++) {
                 int charEquals = a.charAt(y) != b.charAt(x) ? 1 : 0;
+
                 dp[y][x] = min(dp[y][x-1] + 1,
                                dp[y-1][x] + 1,
                                dp[y-1][x-1] + charEquals);
+
+                if (y > 1 && x > 1 &&
+                        a.charAt(y) == b.charAt(x-1) &&
+                        a.charAt(y-1) == b.charAt(x)) {
+                    dp[y][x] = Math.min(dp[y][x], dp[y-2][x-2] + 1);
+                }
             }
         }
         printArray(al, bl);

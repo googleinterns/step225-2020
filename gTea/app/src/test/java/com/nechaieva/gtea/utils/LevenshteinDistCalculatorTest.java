@@ -22,6 +22,11 @@ public class LevenshteinDistCalculatorTest {
     }
 
     @Test
+    public void testLetterSwapped() {
+        test(1, "swap", "sawp");
+    }
+
+    @Test
     public void testClassicalExample() {
         test( 6,"polynomial", "exponential");
     }
