@@ -5,13 +5,14 @@ import java.util.Optional;
 
 /**
  * A base implementation of OrderProcessor.
- * Fast but only works with exact queries and does not understand fuzzy ones.
+ * Works with exact queries only aside from normalization, which is always used.
+ * Fast but does not understand queries with typos.
  */
-public class BaseOrderProcessor implements OrderProcessor {
+public class ExactMatchOrderProcessor implements OrderProcessor {
 
     String[] menu;
 
-    public BaseOrderProcessor(String[] menu) {
+    public ExactMatchOrderProcessor(String[] menu) {
         loadMenu(menu);
     }
 

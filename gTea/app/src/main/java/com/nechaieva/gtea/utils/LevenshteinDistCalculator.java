@@ -1,6 +1,10 @@
 package com.nechaieva.gtea.utils;
 
 public class LevenshteinDistCalculator {
+
+    private LevenshteinDistCalculator() {
+    }
+
     static int[][] dp;
 
     /**

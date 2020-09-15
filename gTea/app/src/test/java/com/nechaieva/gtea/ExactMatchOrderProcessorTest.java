@@ -1,6 +1,6 @@
 package com.nechaieva.gtea;
 
-import com.nechaieva.gtea.utils.BaseOrderProcessor;
+import com.nechaieva.gtea.utils.ExactMatchOrderProcessor;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,14 +10,14 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class BaseOrderProcessorTest {
+public class ExactMatchOrderProcessorTest {
 
-    private static BaseOrderProcessor processor;
+    private static ExactMatchOrderProcessor processor;
 
     @BeforeClass
     public static void setUp() throws Exception {
         String[] menu = {"Black tea", "Green tea", "Coffee", "Donuts"};
-        processor = new BaseOrderProcessor(menu);
+        processor = new ExactMatchOrderProcessor(menu);
     }
 
     @Test

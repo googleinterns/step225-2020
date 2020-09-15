@@ -36,6 +36,8 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
     /**
      * @see LevenshteinOrderProcessor#findInMenu(String, int)
      * Uses default sensitivity.
+     * Declines the search and returns null if the given query
+     * exceeds the {@link LevenshteinOrderProcessor#maxAllowedStringLength} setting.
      */
     @Override
     public Optional<String> findInMenu(String query) {
