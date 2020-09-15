@@ -18,8 +18,11 @@ import com.nechaieva.gtea.DeepLink;
 import com.nechaieva.gtea.MainActivity;
 import com.nechaieva.gtea.MenuAdapter;
 import com.nechaieva.gtea.R;
+import com.nechaieva.gtea.utils.LevenshteinDistCalculator;
 import com.nechaieva.gtea.utils.LevenshteinOrderProcessor;
 import com.nechaieva.gtea.utils.OrderProcessor;
+
+import java.util.Optional;
 
 public class MenuFragment extends Fragment {
 
@@ -112,12 +115,15 @@ public class MenuFragment extends Fragment {
             Log.e(ORDER_TAG, "No MainActivity found");
             return;
         }
-        Bundle order = mainActivity.getStartingInfo();
 
-        boolean navigateTo = (order != null && !order.isEmpty());
+        Bundle order = mainActivity.getStartingInfo();
+        Optional<String> menuItem = checkInMenu(order);
+        boolean navigateTo = menuItem.isPresent();
+
         final String messageIfFalse = "Order is null or empty";
 
         if (navigateTo) {
+            order.putString(DeepLink.ORDER_BUNDLE_TAG, menuItem.get());
             navigateToOrder(order);
         }
         logVoiceOrder(order, navigateTo, messageIfFalse);
@@ -141,5 +147,16 @@ public class MenuFragment extends Fragment {
     void navigateToOrder(Bundle bundle) {
         NavHostFragment.findNavController(MenuFragment.this)
                 .navigate(R.id.action_makeOrder, bundle);
+    }
+
+    Optional<String> checkInMenu(Bundle order) {
+        if (order == null || order.isEmpty() || order.getString(DeepLink.ORDER_BUNDLE_TAG) == null) {
+            return Optional.empty();
+        }
+        return findMenuItem(order.getString(DeepLink.ORDER_BUNDLE_TAG));
+    }
+
+    Optional<String> findMenuItem(String query) {
+        return orderProcessor.findInMenu(query);
     }
 }
