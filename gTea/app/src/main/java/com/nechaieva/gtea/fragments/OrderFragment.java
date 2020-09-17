@@ -1,6 +1,5 @@
-package com.nechaieva.gtea;
+package com.nechaieva.gtea.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.nechaieva.gtea.DeepLink;
+import com.nechaieva.gtea.R;
 
 public class OrderFragment extends Fragment {
 
