@@ -52,33 +52,39 @@ public class OrderTest {
     }
 
     @Test
-    public void testFindMatchSimpleTypo() {
+    public void testFindMatchWhiteSpaceMissing() {
         String testString = testClass.findMatch("flatwhite", coffeeList);
         assertEquals("Flat White", testString);
     }
 
     @Test
-    public void testFindMatchSimpleTypo1() {
+    public void testFindMatchOneMiddleLetterMissing() {
         String testString = testClass.findMatch("capuccino", coffeeList);
         assertEquals("Cappuccino", testString);
     }
 
     @Test
-    public void testFindMatchSimpleTypo2() {
+    public void testFindMatchLastLetterMissing() {
         String testString = testClass.findMatch("american", coffeeList);
         assertEquals("Americano", testString);
     }
 
     @Test
-    public void testFindMatchSimpleTypo3() {
+    public void testFindMatchLetterAndWhiteSpaceMissing() {
         String testString = testClass.findMatch("fatwhite", coffeeList);
         assertEquals("Flat White", testString);
     }
 
     @Test
-    public void testFindMatchSimpleTypo4() {
+    public void testFindMatchLetterMissing() {
         String testString = testClass.findMatch("mcha", coffeeList);
         assertEquals("Mocha", testString);
+    }
+
+    @Test
+    public void testFindMatchLetterWithAccent() {
+        String testString = testClass.findMatch("latté", coffeeList);
+        assertEquals("Latte", testString);
     }
 
     @Test
@@ -98,7 +104,9 @@ public class OrderTest {
         String testString = testClass.findMatch(" ", coffeeList);
         assertEquals(null, testString);
     }
-    //The case not handled yet - returns latte
+
+    //The case not handled properly yet - returns latte, as this is "closest" to
+    // black tea according to Levenshtein distance
     @Test
     public void testFindMatchNotOnMenu() {
         String testString = testClass.findMatch("black tea", coffeeList);
