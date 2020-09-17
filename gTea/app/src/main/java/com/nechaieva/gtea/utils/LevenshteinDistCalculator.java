@@ -37,7 +37,6 @@ public class LevenshteinDistCalculator {
                 }
             }
         }
-        printArray(al, bl);
         return dp[al-1][bl-1];
     }
 
@@ -45,6 +44,13 @@ public class LevenshteinDistCalculator {
         return Math.min(Math.min(a, b), c);
     }
 
+    /**
+     * Prints current values of dp[]. Use it for debugging purposes.
+     * @param ySize
+     * current size of dp, rows
+     * @param xSize
+     * current size of dp, columns
+     */
     private static void printArray(int ySize, int xSize) {
         for (int y = 0; y < ySize; y++) {
             for (int x = 0; x < xSize; x++) {

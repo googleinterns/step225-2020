@@ -4,7 +4,7 @@ import java.util.Optional;
 
 /**
  * Given a query that represent the user's order,
- * tries to determine the matching menu item so that it can be passed back to the handler.
+ * tries to determine the menu item that matches the order.
  * Can be precise or approximate (looking for the closest query).
  */
 public interface OrderProcessor {
@@ -18,8 +18,11 @@ public interface OrderProcessor {
     void loadMenu(String[] menu);
 
     /**
-     * Given a text query passed from the user, return the string that represent
-     * an existing menu item, or empty if there is no fitting candidate for the criteria we use.
+     * Given a text query passed from the user,
+     * returns a menu element that matches the query -
+     * a string from the menu that is the closest one to the query passed to the function.
+     * Wraps it in Optional.
+     * Returns an empty Optional if there is no candidate falling under the criteria we use.
      * @param query
      * A user query.
      * @return

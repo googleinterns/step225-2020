@@ -11,7 +11,13 @@ import java.util.Optional;
 public class LevenshteinOrderProcessor implements OrderProcessor {
 
     private List<String> menu;
-    public final int DEFAULT_SENSITIVITY = 3; // The threshold for string distances.
+
+    /**
+     * The threshold for string distances.
+     * Represents the number of typos the user can make before the query will be rejected.
+     */
+    public final int DEFAULT_SENSITIVITY = 3;
+
     private int maxAllowedStringLength = 100;
 
     public LevenshteinOrderProcessor(String[] menu) {
@@ -41,9 +47,6 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
      */
     @Override
     public Optional<String> findInMenu(String query) {
-        if(query.length() > maxAllowedStringLength) {
-            return Optional.empty();
-        }
         return findInMenu(query, DEFAULT_SENSITIVITY);
     }
 
@@ -58,7 +61,17 @@ public class LevenshteinOrderProcessor implements OrderProcessor {
      * A menu item.
      */
     public Optional<String> findInMenu(String query, int sensitivity) {
+
+        if (menu == null) {
+            throw new NullPointerException("Menu is not initialized");
+        }
+
         query = Normalizer.normalize(query);
+        if(query.length() > maxAllowedStringLength || query.isEmpty()) {
+            // Empty queries get ignored - there is no matching item.
+            return Optional.empty();
+        }
+
         Match match = findClosest(query);
         return Optional.ofNullable(match.getDistance() < sensitivity ?
                                         match.getMatchString() :

@@ -1,4 +1,4 @@
-package com.nechaieva.gtea;
+package com.nechaieva.gtea.utils;
 
 import com.nechaieva.gtea.utils.ExactMatchOrderProcessor;
 
@@ -8,7 +8,6 @@ import org.junit.Test;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 public class ExactMatchOrderProcessorTest {
 
@@ -22,22 +21,22 @@ public class ExactMatchOrderProcessorTest {
 
     @Test
     public void findExistent() {
-        String userQuery = "Black tea";
-        Optional<String> res = processor.findInMenu(userQuery);
-        assertEquals(res.orElse("null"), "black tea");
+        test("Black tea", Optional.of("black tea"));
     }
 
     @Test
     public void findExistentWithNormalization() {
-        String userQuery = "\nBlack tEA\n\n";
-        Optional<String> res = processor.findInMenu(userQuery);
-        assertEquals(res.orElse("null"), "black tea");
+        test("\nBlack tEA\n\n", Optional.of("black tea"));
     }
 
     @Test
     public void doNotFindNonexistent() {
-        String userQuery = "Orange tea";
+        test("Orange tea", Optional.empty());
+    }
+
+    public void test(String userQuery, Optional<String> expected) {
         Optional<String> res = processor.findInMenu(userQuery);
-        assertFalse(res.isPresent());
+        assertEquals(res, expected);
+
     }
 }
