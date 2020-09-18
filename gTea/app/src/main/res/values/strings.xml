@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">GTea</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="menu_fragment_label">Menu</string>
+    <string name="order_fragment_label">Order</string>
+    <string name="account_fragment_label">Account</string>
+    <string name="order">Order</string>
+    <string name="back">Back to the tea card</string>
+    <string name="back_short">Back</string>
+    <string name="profile"> Go to the user profile</string>
+    <string name="acc_info">Account information</string>
+    <string name="order_text">You ordered:\n %1$s</string>
+
+    <string-array name="tea_menu">
+        <item>Black tea</item>
+        <item>Green tea</item>
+    </string-array>
+
+</resources>
